@@ -2,17 +2,36 @@ name: Building Blocks
 on: push
 
 jobs:
-  echo-hello:
+  system-info:
     runs-on: ubuntu-latest
     steps:
-      - name: Say hello
-        run: echo "Hello, World!"
-  echo-goodbye:
+      - name: Os name and kernel version
+        run: echo hostnamectl | grep "Operating System\|Kernel"
+      - name: total disk space free
+        run: df -h | grep "/dev/sda1"
+      - name: date and time
+        run: date
+      - name: install tree
+        run: sudo apt-get install tree -y
+      - name: display directory tree
+        run: tree -L 2
+  tool-check:
     runs-on: ubuntu-latest
     steps:
-      - name: failed step
+      - name: install jq
+        run: sudo apt-get install jq -y
+      - name: report.json file
+        run: echo '{"name": "John", "age": 30, "city": "New York"}' > report.json
+      - name: read file and extract one value
+        run: cat report.json | jq '.name'
+      - name: Print the installed versions of python3, git and jq, each on its own line
         run: |
-          echo "this step will fail"
-          exit 1
-      - name: Say goodbye
-        run: echo "Goodbye, World!"
+          echo "Python3 version:"
+          python3 --version
+          echo "Git version:"
+          git --version
+          echo "jq version:"
+          jq --version
+      - name: finsihed
+        run: echo "report completed"
+        
