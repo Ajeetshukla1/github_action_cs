@@ -1,16 +1,21 @@
+name: Housekeeping
+
 on:
-  push:
-  pull_request:
-  #when we merge branch to main, we want to run the workflow
-  schedule:
-    - cron: '0 2 * * *' #every day at 2 am utc
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+  # schedule:
+  #   - cron: '0 2 * * *' #every day at 2 am utc
   workflow_dispatch:
 
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - name: data and time
+      - name: Date and time
         run: echo "Current Date and Time: $(date)"
       - name: message
         run: echo "This workflow is for housekeeping tasks and will run every day at 2 am UTC."

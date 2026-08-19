@@ -1,9 +1,9 @@
 on:
-  push:
-  pull_request:
-  #when we merge branch to main, we want to run the workflow
-  schedule:
-    - cron: '*/5 * * * *' #runs every 5 minutes
+  # push:
+  # pull_request:
+  # #when we merge branch to main, we want to run the workflow
+  # schedule:
+  #   - cron: '*/5 * * * *' #runs every 5 minutes
   workflow_dispatch:
 
 jobs:
