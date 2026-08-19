@@ -1,0 +1,21 @@
+name: Using Actions
+on: push
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: react-app
+        #using this working directory, we can run the commands in the react-app folder
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v7
+      - name: Setup  node js
+        uses: actions/setup-node@7
+        with:
+          node-version: '24.x'
+      - name: install dependencies
+        run: npm ci
+      - name: run tests
+        run: npm run test

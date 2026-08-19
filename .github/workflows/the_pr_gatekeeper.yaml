@@ -8,8 +8,8 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
-      - name: Show the branch and PR details which get merged to main
-        run: echo "This workflow was triggered by a pull request to the ${{ github.base_ref }} branch. The PR number is ${{ github.event.pull_request.number }} and the title is '${{ github.event.pull_request.title }}'."
+      - name: Show the branch which request for pull and PR details which get merged to main
+        run: echo "This workflow was triggered by a pull request to main branch from ${{ github.head_ref }} branch. The PR number is ${{ github.event.pull_request.number }} and the title is '${{ github.event.pull_request.title }}'."
       
       - name: print
         run: echo "the gate keeper checks are completed"
