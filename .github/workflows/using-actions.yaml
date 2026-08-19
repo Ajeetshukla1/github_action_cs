@@ -1,6 +1,7 @@
 name: Using Actions
 
-on: push
+on: workflow_dispatch
+#workflow_dispatch allows you to manually trigger the workflow from the GitHub Actions tab in your repository.
 
 jobs:
   build:

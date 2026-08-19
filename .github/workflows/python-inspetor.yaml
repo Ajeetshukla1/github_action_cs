@@ -1,0 +1,24 @@
+name: python inspector
+on:
+  push
+  workflow_dispatch:
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v7
+      - name: set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: print python version and pip version
+        run: |
+          python --version
+          pip --version
+      - name: print where python binary is installed
+        run: which python
+      - name: print where pip binary is installed
+        run: which pip
+      - name: completed
+        run: echo "python inspector workflow completed successfully"
