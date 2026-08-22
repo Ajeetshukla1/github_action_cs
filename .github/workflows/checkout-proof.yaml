@@ -1,0 +1,37 @@
+name: checkout proof
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: check folder path and listen to its contents
+        run: |
+          echo "Current folder: $(pwd)"
+          echo "Files in the current folder:"
+          ls -la
+
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - name: list the content of the folder after checkout
+        run: |
+          echo "Files in the current folder after checkout:"
+          ls -la
+
+      - name: proof captured
+        run: |
+          echo "Proof of checkout captured successfully."
+
+      - name: how
+        run: |
+          echo "The first listing shows the runner's working directory before the repository is downloaded, while the second shows the same directory after actions/checkout has placed the repository files there."
+
+      
+
+
+
+    
