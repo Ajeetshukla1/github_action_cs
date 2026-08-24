@@ -1,8 +1,10 @@
 name: using expressions
 run-name: using expressions | DEBUG -${{inputs.debug && 'ON' || 'OFF'}}
-
+# workflow run name will be either DEBUG -ON or DEBUG -OFF based on the value of the debug input parameter
 on:
     workflow_dispatch:
+    #if input has a type boolean than it will be a checkbox by this we check debug will be on or off
+    #by using this we specify a debug flag
         inputs:
             debug:
                 type: boolean
@@ -13,6 +15,7 @@ jobs:
         steps:
             - name: '[Debug] Print start-up data'
               if: inputs.debug
+              #if i want to see this data i can switch to debug on, in the worflow by ticking the checkbox
               run: |
                     echo "debug mode is on"
                     echo "workflow name: ${{ github.workflow }}"
