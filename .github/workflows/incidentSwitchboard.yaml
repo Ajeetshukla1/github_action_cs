@@ -72,15 +72,15 @@ jobs:
 
       - name: Low severity
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.severity == 'low' }}
-        run: echo "Low severity: standard incident handling."
+        run: echo "Low severity standard incident handling."
       
       - name: Medium severity
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.severity == 'medium' }}
-        run: echo "Medium severity: elevated incident handling required."
+        run: echo "Medium severity elevated incident handling required."
 
       - name: High severity
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.severity == 'high' }}
-        run: echo "High severity: critical incident handling and scanning required."
+        run: echo "High severity critical incident handling and scanning required."
 
   tests:
     name: tests
