@@ -1,4 +1,4 @@
-naeme: using expressions
+name: using expressions
 run-name: using expressions | DEBUG -${{inputs.debug && 'ON' || 'OFF'}}
 
 on:
