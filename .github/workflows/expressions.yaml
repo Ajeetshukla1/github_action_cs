@@ -1,0 +1,31 @@
+naeme: using expressions
+run-name: using expressions | DEBUG -${{inputs.debug && 'ON' || 'OFF'}}
+
+on:
+    workflow_dispatch:
+        inputs:
+            debug:
+                type: boolean
+                default: 'false'
+jobs:
+    echo:
+        runs-on: ubuntu-latest
+        steps:
+            - name: '[Debug] Print start-up data'
+              if: inputs.debug
+              run: |
+                    echo "debug mode is on"
+                    echo "workflow name: ${{ github.workflow }}"
+                    echo "workflow run id: ${{ github.run_id }}"
+                    echo "workflow run number: ${{ github.run_number }}"
+                    echo "workflow event name: ${{ github.event_name }}"
+                    echo "repository : ${{ github.repository }}"
+                    echo "branch : ${{ github.ref_name }}"
+                    echo "sha : ${{ github.sha }}"
+            - name: '[Debug] print when from main'
+              if: inputs.debug && github.ref_name == 'main'
+              run: |
+                    echo "this worflow was tiggred from main branch"
+            - name: greeting
+              run: |
+                    echo "Hello, ${{ github.actor }}! Welcome to the GitHub Actions workflow."  
