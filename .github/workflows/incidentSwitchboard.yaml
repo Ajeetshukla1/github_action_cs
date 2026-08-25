@@ -3,30 +3,31 @@ on:
   push:
     branches:
       - main
-    pull_request:
-      branches:
-        - main
-    workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
     inputs:
       incident_severity:
         description: 'Select the severity of the incident'
         required: false
         default: 'low'
+        type: choice
         options:
           - low
           - medium
           - high
-        
+
       deep_scan:
         description: 'run a deep scan '
         required: false
-        default: 'false'
+        default: false
         type: boolean
 
       skip_tests:
         description: 'skip tests'
         required: false
-        default: 'false'
+        default: false
         type: boolean
 
       incident_message:
@@ -38,8 +39,8 @@ on:
 run-name: >-
   ${{ github.event_name == 'workflow_dispatch'
       && format('{0}{1} - Incident Switchboard',
-          inputs.severity == 'high' && 'HIGH'
-          || inputs.severity == 'medium' && 'MEDIUM'
+          inputs.incident_severity == 'high' && 'HIGH'
+          || inputs.incident_severity == 'medium' && 'MEDIUM'
           || 'LOW',
           inputs.deep_scan && ' SCAN' || '')
       || format('Automatic - Incident Switchboard ({0})', github.event_name) }}
@@ -60,10 +61,10 @@ jobs:
       - name: Print manual inputs
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
-          echo "Severity: ${{ inputs.severity }}"
+          echo "Severity: ${{ inputs.incident_severity }}"
           echo "Deep scan: ${{ inputs.deep_scan }}"
           echo "Tests skipped: ${{ inputs.skip_tests }}"
-          echo "Reason: ${{ inputs.reason }}"
+          echo "Reason: ${{ inputs.incident_message }}"
 
       - name: Print automatic run information
         if: ${{ github.event_name != 'workflow_dispatch' }}
@@ -71,15 +72,15 @@ jobs:
           echo "This run was automatic and no reason was supplied."
 
       - name: Low severity
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.severity == 'low' }}
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.incident_severity == 'low' }}
         run: echo "Low severity standard incident handling."
       
       - name: Medium severity
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.severity == 'medium' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.incident_severity == 'medium' }}
         run: echo "Medium severity elevated incident handling required."
 
       - name: High severity
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.severity == 'high' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.incident_severity == 'high' }}
         run: echo "High severity critical incident handling and scanning required."
 
   tests:
@@ -118,7 +119,7 @@ jobs:
         always() &&
         needs.triage.result == 'success' &&
         github.event_name == 'workflow_dispatch' &&
-        (inputs.deep_scan == true || inputs.severity == 'high')
+        (inputs.deep_scan == true || inputs.incident_severity == 'high')
       }}
     runs-on: ubuntu-latest
     steps:
@@ -129,7 +130,7 @@ jobs:
 
       - name: Write scan results
         env:
-          SEVERITY: ${{ inputs.severity }}
+          SEVERITY: ${{ inputs.incident_severity }}
           DEEP_SCAN: ${{ inputs.deep_scan }}
           ACTOR: ${{ github.actor }}
           RUN_NUMBER: ${{ github.run_number }}
