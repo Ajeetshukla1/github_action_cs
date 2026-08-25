@@ -85,13 +85,13 @@ jobs:
   tests:
     name: tests
     needs: triage
-            if: >-
-          ${{
-            needs.triage.result == 'success' &&
-            (github.event_name != 'workflow_dispatch' || inputs.skip_tests != true)
-          }}
+    if: >-
+      ${{
+        needs.triage.result == 'success' &&
+        (github.event_name != 'workflow_dispatch' || inputs.skip_tests != true)
+      }}
     runs-on: ubuntu-latest
-    default:
+    defaults:
       working-directory: react-app
     steps:
       - name: Checkout code
